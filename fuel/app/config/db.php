@@ -6,5 +6,19 @@
  */
 
 return array(
-
+    'default' => array(
+        'type' => 'pdo',
+        'connection' => array(
+            'dsn' => 'mysql:host=localhost;dbname=cakephp',
+            'username' => 'root',
+            'password' => '',
+            'persistent' => false,
+            'compress' => true,
+        ),
+        'identifier' => '`',
+        'table_prefix' => '',
+        'charset' => 'utf8',
+        'enable_cache' => true,
+        'profiling' => false,
+    ),
 );
