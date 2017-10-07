@@ -400,8 +400,8 @@ abstract class BusAbstract {
      */
     public final function execute($json = null, $moreParam = array()) {
         $data = array();
-        \LogLib::info('headers:', __METHOD__, Input::headers());
-        \LogLib::info('user_agent:', __METHOD__, Input::user_agent());
+//        \LogLib::info('headers:', __METHOD__, Input::headers());
+//        \LogLib::info('user_agent:', __METHOD__, Input::user_agent());
         
         // if have authToken || require authorize
         if ((\Lib\Util::authToken() || !in_array(\Uri::string(), \Config::get('unauthorize_url'))) && \Config::get('authorize') == true) {
@@ -555,7 +555,7 @@ abstract class BusAbstract {
             $data['page'] = 1;
         }
         
-        \LogLib::info('input:', __METHOD__, $data);
+//        \LogLib::info('input:', __METHOD__, $data);
         $operateDB = $this->operateDB($data);
         if ($operateDB === false) {
             if ($this->_exception != null) {
@@ -651,7 +651,7 @@ abstract class BusAbstract {
                     'status' => $this->_error_code,
                     'error' => $this->_getError()
                 );
-                \LogLib::warning("Validation error (400)", __METHOD__, $this->_response);
+//                \LogLib::warning("Validation error (400)", __METHOD__, $this->_response);
             }
         } else {
             $this->_response = array(

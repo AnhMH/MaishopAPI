@@ -313,8 +313,8 @@ return array(
 	// ),
     'always_load' => array(
         'packages' => array(
-//            'loglib',
-//            'email',
+            'loglib',
+            'email',
             'orm',            
         ),
     ),
@@ -351,7 +351,7 @@ return array(
     ),
     'register_token_expire' => time() + 60 * 60, // 1 hour
     'system_email' => array(
-        'noreply' => '',
+        'noreply' => 'mhanhqb1@gmail.com',
         'support' => '',
         'bcc' => '',
     ),

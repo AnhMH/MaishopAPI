@@ -5,10 +5,10 @@
  * Fuel is a fast, lightweight, community driven PHP5 framework.
  *
  * @package    Fuel
- * @version    1.8
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2016 Fuel Development Team
+ * @copyright  2010 - 2014 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -48,7 +48,8 @@ return array(
 		/**
 		 * Mail driver (mail, smtp, sendmail, noop)
 		 */
-		'driver' => 'mail',
+		//'driver' => 'smtp',
+		'driver' => 'phpmailer',
 
 		/**
 		 * Whether to send as html, set to null for autodetection.
@@ -80,8 +81,8 @@ return array(
 		 * Default sender details
 		 */
 		'from' => array(
-			'email' => false,
-			'name'  => false,
+			'email'     => false,
+			'name'      => false,
 		),
 
 		/**
@@ -117,26 +118,50 @@ return array(
 		/**
 		 * SMTP settings
 		 */
-		'smtp' => array(
-			'host'     => '',
-			'port'     => 25,
-			'username' => '',
-			'password' => '',
-			'timeout'  => 5,
-			'starttls' => false,
+        'smtp' => array(
+			'host'      => 'mail.tmvsolution.com',
+			'port'      => 25,
+			'username'  => 'test@tmvsolution.com',
+            'password'  => 'minhvu',
+			'timeout'   => 5,
+			'starttls'  => false,
 		),
-
+       
+        /*
+        'phpmailer' => array(
+			'Mailer'    => 'smtp',
+			'SMTPAuth'  => true,
+			'Host'      => 'ssl://smtp.gmail.com',
+			'Port'      => 465,
+			'Username'  => 'developer.php.vn@gmail.com',
+            'Password'  => 'dev@123456',
+			'Timeout'   => 2*60,			
+		),        
+        */
+        
+        'phpmailer' => array(
+			'Mailer'    => 'smtp',
+			'SMTPAuth'  => true,
+			'Host'      => 'tls://email-smtp.us-west-2.amazonaws.com',
+			'Port'      => 25,
+			'Username'  => 'AKIAJ5DQYYMFTZCYBR5A',
+            'Password'  => 'AsACdSqFXoca3e6MHwARA1c7yI7cIc10GmJU57Lt7UGr',
+			'Timeout'   => 2*60,			
+		),
+        
 		/**
 		 * Newline
 		 */
-		'newline' => "\n",
+		'newline' => "\r\n",
 
 		/**
 		 * Attachment paths
 		 */
 		'attach_paths' => array(
-			'', 		// absolute path
-			DOCROOT, 	// relative to docroot.
+			// absolute path
+			'',
+			// relative to docroot.
+			DOCROOT,
 		),
 
 		/**
@@ -166,8 +191,8 @@ return array(
 		 * Mailgun settings, see http://www.mailgun.com/
 		 */
 		'mailgun' => array(
-			'key'    => 'api_key',
-			'domain' => 'domain',
+			'key' => 'api_key',
+			'domain' => 'domain'
 		),
 
 		/**

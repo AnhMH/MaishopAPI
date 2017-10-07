@@ -5,10 +5,10 @@
  * Fuel is a fast, lightweight, community driven PHP5 framework.
  *
  * @package    Fuel
- * @version    1.8
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2016 Fuel Development Team
+ * @copyright  2010 - 2014 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -45,7 +45,7 @@ abstract class Email_Driver
 	 * Attachments array
 	 */
 	protected $attachments = array(
-		'inline'     => array(),
+		'inline' => array(),
 		'attachment' => array(),
 	);
 
@@ -243,7 +243,7 @@ abstract class Email_Driver
 					// Deal with relative protocol URI's if needed
 					elseif ($scheme = $this->get_config('relative_protocol_replacement', false) and strpos($image_url, '//') === 0)
 					{
-						$html = preg_replace("/".$images[1][$i]."=\"".preg_quote($image_url, '/')."\"/Ui", $images[1][$i]."=\"".$scheme.substr($image_url, 2)."\"", $html);
+						$html = preg_replace("/".$images[1][$i]."=\"".preg_quote($image_url, '/')."\"/Ui", $images[1][$i]."=\"".$scheme.substr($image_url,2)."\"", $html);
 					}
 				}
 			}
@@ -951,23 +951,8 @@ abstract class Email_Driver
 	 */
 	protected function encode_mimeheader($header)
 	{
-		// we need mbstring for this
-		if ( ! MBSTRING)
-		{
-			throw new \RuntimeException('Email requires the multibyte package ("mbstring") package to be installed!');
-		}
-
 		$transfer_encoding = ($this->config['encoding'] === 'quoted-printable') ? 'Q' : 'B' ;
-
-		// work around possible bugs with encoding by setting the encoding manually
-		$current_encoding = mb_internal_encoding();
-		mb_internal_encoding($this->config['charset']);
-
-		$header = mb_encode_mimeheader($header, $this->config['charset'], $transfer_encoding, $this->config['newline']);
-
-		mb_internal_encoding($current_encoding);
-
-		return $header;
+		return mb_encode_mimeheader($header, $this->config['charset'], $transfer_encoding, $this->config['newline']);
 	}
 
 	/**
@@ -1201,7 +1186,7 @@ abstract class Email_Driver
 	protected static function wrap_text($message, $length, $newline, $is_html = true)
 	{
 		$length = ($length > 76) ? 76 : $length;
-		$is_html and $message = preg_replace('/[\r\n\t ]+/m', ' ', $message);
+		$is_html and $message = preg_replace('/[\r\n\t]/m', '', $message);
 		$message = wordwrap($message, $length, $newline, false);
 
 		return $message;
@@ -1321,6 +1306,16 @@ abstract class Email_Driver
 		}
 
 		return wordwrap($html, $wordwrap, $newline, true);
+	}
+    
+    /**
+	 * Gets attachment list.
+	 *
+	 * @return array
+	 */
+	public function get_attachment()
+	{
+		return $this->attachments;
 	}
 
 	/**
