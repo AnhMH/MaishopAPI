@@ -58,5 +58,17 @@ class Controller_Test extends \Controller_App {
             echo '</pre>';
         }
     }
+    
+    /**
+     * Generate pass
+     *
+     * @access  public
+     * @return  Response
+     */
+    public function action_pass() {
+        $account = $_GET['acc'];
+        $pass = $_GET['pw'];
+        echo \Lib\Util::encodePassword($pass, $account);
+    }
 
 }
