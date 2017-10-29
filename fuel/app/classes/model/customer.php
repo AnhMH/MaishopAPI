@@ -21,6 +21,7 @@ class Model_Customer extends Model_Abstract {
         'tel',
         'email',
         'note',
+        'order_count',
         'created',
         'updated',
         'disable'
@@ -114,6 +115,7 @@ class Model_Customer extends Model_Abstract {
                 self::$_table_name.'.tel',
                 self::$_table_name.'.email',
                 self::$_table_name.'.note',
+                self::$_table_name.'.order_count',
                 self::$_table_name.'.created',
                 self::$_table_name.'.disable'
             )
