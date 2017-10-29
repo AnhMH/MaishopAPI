@@ -134,6 +134,11 @@ class Model_Customer extends Model_Abstract {
         if (!empty($param['email'])) {
             $query->where(self::$_table_name.'.email', 'LIKE', "%{$param['email']}%");
         }
+        if (!empty($param['disable'])) {
+            $query->where(self::$_table_name.'.disable', 1);
+        } else {
+            $query->where(self::$_table_name.'.disable', 0);
+        }
         
         // Pagination
         if (!empty($param['page']) && $param['limit']) {
