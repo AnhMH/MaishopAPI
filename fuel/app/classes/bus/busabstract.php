@@ -400,8 +400,8 @@ abstract class BusAbstract {
      */
     public final function execute($json = null, $moreParam = array()) {
         $data = array();
-//        \LogLib::info('headers:', __METHOD__, Input::headers());
-//        \LogLib::info('user_agent:', __METHOD__, Input::user_agent());
+        \LogLib::info('headers:', __METHOD__, Input::headers());
+        \LogLib::info('user_agent:', __METHOD__, Input::user_agent());
         
         // if have authToken || require authorize
         if ((\Lib\Util::authToken() || !in_array(\Uri::string(), \Config::get('unauthorize_url'))) && \Config::get('authorize') == true) {

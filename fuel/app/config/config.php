@@ -331,7 +331,7 @@ return array(
         'admins/login'
     ),
     'admin_authorize_url' => array(
-        
+        'admins/updateprofile'
     ),
     'unauthorize_basic_token_url' => array(
         'versions/check'
