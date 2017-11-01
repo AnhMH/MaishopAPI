@@ -149,11 +149,24 @@ class Model_Customer extends Model_Abstract {
         }
         
         // Sort
-        $query->order_by(self::$_table_name.'.created', 'DESC');
+        if (!empty($param['sort'])) {
+            if (!self::checkSort($param['sort'])) {
+                self::errorParamInvalid('sort');
+                return false;
+            }
+
+            $sortExplode = explode('-', $param['sort']);
+            if ($sortExplode[0] == 'created') {
+                $sortExplode[0] = self::$_table_name . '.created';
+            }
+            $query->order_by($sortExplode[0], $sortExplode[1]);
+        } else {
+            $query->order_by(self::$_table_name . '.created', 'DESC');
+        }
         
         // Get data
         $data = $query->execute()->as_array();
-        $total = '10';
+        $total = !empty($data) ? DB::count_last_query(self::$slave_db) : 0;
         
         return array(
             'total' => $total,

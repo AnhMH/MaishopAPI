@@ -10,18 +10,22 @@ use Fuel\Core\DB;
  * @version 1.0
  * @author AnhMH
  */
-class Model_Supplier extends Model_Abstract {
+class Model_Product extends Model_Abstract {
     
     /** @var array $_properties field of table */
     protected static $_properties = array(
         'id',
         'admin_id',
+        'cate_id',
         'name',
-        'address',
-        'tel',
-        'email',
-        'note',
-        'order_count',
+        'description',
+        'detail',
+        'avatar',
+        'gallery',
+        'agent_price',
+        'price',
+        'discount',
+        'rate',
         'created',
         'updated',
         'disable'
@@ -39,7 +43,7 @@ class Model_Supplier extends Model_Abstract {
     );
 
     /** @var array $_table_name name of table */
-    protected static $_table_name = 'suppliers';
+    protected static $_table_name = 'products';
 
     /**
      * Add update info
@@ -58,11 +62,21 @@ class Model_Supplier extends Model_Abstract {
         if (!empty($param['id'])) {
             $self = self::find($param['id']);
             if (empty($self)) {
-                self::errorNotExist('user_id');
+                self::errorNotExist('product_id');
                 return false;
             }
         } else {
             $self = new self;
+        }
+        
+        // Upload image
+        if (!empty($_FILES)) {
+            $uploadResult = \Lib\Util::uploadImage(); 
+            if ($uploadResult['status'] != 200) {
+                self::setError($uploadResult['error']);
+                return false;
+            }
+            $param['avatar'] = !empty($uploadResult['body']['avatar']) ? $uploadResult['body']['avatar'] : '';
         }
         
         // Set data
@@ -70,17 +84,32 @@ class Model_Supplier extends Model_Abstract {
         if (!empty($param['name'])) {
             $self->set('name', $param['name']);
         }
-        if (!empty($param['address'])) {
-            $self->set('address', $param['address']);
+        if (!empty($param['cate_id'])) {
+            $self->set('cate_id', $param['cate_id']);
         }
-        if (!empty($param['tel'])) {
-            $self->set('tel', $param['tel']);
+        if (!empty($param['description'])) {
+            $self->set('description', $param['description']);
         }
-        if (!empty($param['email'])) {
-            $self->set('email', $param['email']);
+        if (!empty($param['detail'])) {
+            $self->set('detail', $param['detail']);
         }
-        if (!empty($param['note'])) {
-            $self->set('note', $param['note']);
+        if (!empty($param['avatar'])) {
+            $self->set('avatar', $param['avatar']);
+        }
+        if (!empty($param['gallery'])) {
+            $self->set('gallery', $param['gallery']);
+        }
+        if (!empty($param['agent_price'])) {
+            $self->set('agent_price', $param['agent_price']);
+        }
+        if (!empty($param['price'])) {
+            $self->set('price', $param['price']);
+        }
+        if (!empty($param['discount'])) {
+            $self->set('discount', $param['discount']);
+        }
+        if (!empty($param['rate'])) {
+            $self->set('rate', $param['rate']);
         }
         
         // Save data
@@ -108,16 +137,7 @@ class Model_Supplier extends Model_Abstract {
         
         // Query
         $query = DB::select(
-                self::$_table_name.'.id',
-                self::$_table_name.'.admin_id',
-                self::$_table_name.'.name',
-                self::$_table_name.'.address',
-                self::$_table_name.'.tel',
-                self::$_table_name.'.email',
-                self::$_table_name.'.note',
-                self::$_table_name.'.order_count',
-                self::$_table_name.'.created',
-                self::$_table_name.'.disable'
+                self::$_table_name.'.*'
             )
             ->from(self::$_table_name)
             ->where(self::$_table_name.'.admin_id', $adminId)
@@ -187,7 +207,7 @@ class Model_Supplier extends Model_Abstract {
         
         $data = self::find($id);
         if (empty($data)) {
-            self::errorNotExist('customer_id');
+            self::errorNotExist('product_id');
             return false;
         }
         
