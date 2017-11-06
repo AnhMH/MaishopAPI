@@ -334,7 +334,16 @@ return array(
         'admins/updateprofile',
         'customers/addupdate',
         'customers/list',
-        'customers/detail'
+        'customers/detail',
+        'customers/all',
+        'products/addupdate',
+        'products/list',
+        'products/detail',
+        'products/all',
+        'suppliers/addupdate',
+        'suppliers/list',
+        'suppliers/detail',
+        'suppliers/all',
     ),
     'unauthorize_basic_token_url' => array(
         'versions/check'

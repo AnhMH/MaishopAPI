@@ -34,4 +34,11 @@ class Controller_Customers extends \Controller_App {
     public function action_disable() {
         return \Bus\Customers_Disable::getInstance()->execute();
     }
+    
+    /**
+     * Get all
+     */
+    public function action_all() {
+        return \Bus\Customers_All::getInstance()->execute();
+    }
 }
