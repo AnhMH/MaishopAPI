@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : Localhost
+Source Server         : localhost
 Source Server Version : 50505
 Source Host           : localhost:3306
-Source Database       : maishop
+Source Database       : vinashop
 
 Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2017-10-29 15:44:48
+Date: 2017-11-15 16:47:45
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -41,7 +41,7 @@ CREATE TABLE `admins` (
 -- ----------------------------
 -- Records of admins
 -- ----------------------------
-INSERT INTO `admins` VALUES ('1', '0', 'admin', 'HdH7tYt5E38XXbD-7NS3l3Y2S0s2Ri1Id1FBWndGdkpHbERnVUZORU14SzFaZUxEbFVXS2lZVk1sSXM', 'ADMIN', 'admin@gmail.com', 'Q9 - Ho Chi Minh', '0968677633', 'http://img.maishop.localhost/2017/10/28/217c38e02e569909667302e516b9c183.png', 'hoanganhonline.com', 'aaaa', null, '0', '1509165041', '1509168253');
+INSERT INTO `admins` VALUES ('1', '0', 'admin', 'HdH7tYt5E38XXbD-7NS3l3Y2S0s2Ri1Id1FBWndGdkpHbERnVUZORU14SzFaZUxEbFVXS2lZVk1sSXM', 'ADMIN', 'admin@gmail.com', 'Q9 - Ho Chi Minh', '0968677633', 'http://img.maishop.localhost/2017/11/01/17508350dac3446ab9e2b53a3441bf7f.jpg', 'hoanganhonline.com', 'aaaa', null, '0', '1509165041', '1509516377');
 
 -- ----------------------------
 -- Table structure for authenticates
@@ -52,7 +52,7 @@ CREATE TABLE `authenticates` (
   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '`user_id/admin_id base on type',
   `token` varchar(255) NOT NULL DEFAULT '' COMMENT 'トークン',
   `expire_date` int(11) NOT NULL DEFAULT '0' COMMENT 'トークンの期限',
-  `regist_type` varchar(20) NOT NULL COMMENT 'user/admin',
+  `regist_type` varchar(20) NOT NULL DEFAULT '' COMMENT 'user/admin',
   `created` int(11) DEFAULT NULL COMMENT '作成日',
   PRIMARY KEY (`id`),
   KEY `id` (`id`,`user_id`)
@@ -61,7 +61,7 @@ CREATE TABLE `authenticates` (
 -- ----------------------------
 -- Records of authenticates
 -- ----------------------------
-INSERT INTO `authenticates` VALUES ('17', '1', 'a7e0dd7582a9b414335c36b8d2c99389dcecabe5354528caa09f3afe639ea5e2d1c5e495159833375994705572881a663fed965478c94c8b864585bcaed47c27', '1511852867', 'admin', '1509162333');
+INSERT INTO `authenticates` VALUES ('17', '1', 'a7e0dd7582a9b414335c36b8d2c99389dcecabe5354528caa09f3afe639ea5e2d1c5e495159833375994705572881a663fed965478c94c8b864585bcaed47c27', '1513319196', 'admin', '1509162333');
 
 -- ----------------------------
 -- Table structure for customers
@@ -98,24 +98,57 @@ INSERT INTO `customers` VALUES ('6', '1', 'sadasd', 'ads', '3442', 'anh@gmail.co
 DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
+  `customer_id` int(11) DEFAULT NULL,
+  `supplier_id` int(11) DEFAULT NULL,
   `admin_id` int(11) DEFAULT NULL,
   `sub_name` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `sub_address` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `sub_tel` varchar(20) DEFAULT NULL,
-  `ext_cost` varchar(255) DEFAULT NULL,
-  `ship_cost` varchar(255) DEFAULT NULL,
-  `total` varchar(255) DEFAULT NULL,
-  `note` text,
+  `ext_cost` varchar(50) DEFAULT NULL,
+  `ship_cost` varchar(50) DEFAULT NULL,
+  `total` varchar(50) DEFAULT NULL,
+  `pay_debt` varchar(50) DEFAULT NULL,
+  `pay_total` varchar(50) DEFAULT NULL,
+  `note` text CHARACTER SET utf8,
+  `type` tinyint(1) DEFAULT '1' COMMENT '1: sell, 2: buy',
   `created` int(11) DEFAULT NULL,
   `updated` int(11) DEFAULT NULL,
   `disable` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of orders
 -- ----------------------------
+INSERT INTO `orders` VALUES ('1', '5', null, '1', null, null, null, null, null, null, null, '12346', null, null, '1510734153', '1510734153', '0');
+INSERT INTO `orders` VALUES ('2', '5', null, '1', 'áda', '2132', 'ads', null, null, '123669', null, '23456', null, null, '1510735354', '1510735354', '0');
+INSERT INTO `orders` VALUES ('3', '5', null, '1', 'áda', '2132', 'ads', null, null, '123669', null, '23456', 'sadasd note', null, '1510735453', '1510735453', '0');
+INSERT INTO `orders` VALUES ('4', '5', null, '1', 'áda', '2132', 'ads', null, null, '247551', null, '132456', null, null, '1510737757', '1510737757', '0');
+INSERT INTO `orders` VALUES ('5', '5', null, '1', 'áda', '2132', 'ads', null, null, '864831', null, null, null, null, '1510738331', '1510738331', '0');
+
+-- ----------------------------
+-- Table structure for order_products
+-- ----------------------------
+DROP TABLE IF EXISTS `order_products`;
+CREATE TABLE `order_products` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `qty` int(11) DEFAULT NULL,
+  `price` decimal(10,0) DEFAULT NULL,
+  `created` int(11) DEFAULT NULL,
+  `updated` int(11) DEFAULT NULL,
+  `disable` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of order_products
+-- ----------------------------
+INSERT INTO `order_products` VALUES ('1', '4', '5', '3', '213', '1510737757', '1510737757', '0');
+INSERT INTO `order_products` VALUES ('2', '4', '1', '2', '123456', '1510737757', '1510737757', '0');
+INSERT INTO `order_products` VALUES ('3', '5', '5', '3', '213', '1510738331', '1510738331', '0');
+INSERT INTO `order_products` VALUES ('4', '5', '1', '7', '123456', '1510738331', '1510738331', '0');
 
 -- ----------------------------
 -- Table structure for products
@@ -134,16 +167,18 @@ CREATE TABLE `products` (
   `price` varchar(255) DEFAULT NULL,
   `discount` tinyint(2) DEFAULT NULL COMMENT '% giam gia',
   `rate` tinyint(4) DEFAULT NULL,
+  `qty` int(11) DEFAULT NULL,
   `disable` tinyint(1) DEFAULT '0',
   `created` int(11) DEFAULT NULL,
   `updated` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of products
 -- ----------------------------
-INSERT INTO `products` VALUES ('1', null, null, 'a', null, null, null, null, null, null, '127', null, '0', null, null);
+INSERT INTO `products` VALUES ('1', '1', null, 'sp', 'asdas', null, 'http://img.maishop.localhost/2017/11/02/c9ca2e87b5feb209225180b5cea7812b.jpg', null, null, '123456', '127', null, null, '0', null, '1509601513');
+INSERT INTO `products` VALUES ('5', '1', null, 'sp 1', 'sadasdads', null, 'http://img.maishop.localhost/2017/11/01/1c8e42817380da5cf6fb9f3b049ea76d.jpg', null, null, '213', '21', null, null, '0', '1509527108', '1510736097');
 
 -- ----------------------------
 -- Table structure for suppliers
@@ -172,18 +207,21 @@ DELIMITER ;;
 CREATE TRIGGER `before_insert_admins` BEFORE INSERT ON `admins` FOR EACH ROW SET
   new.created = UNIX_TIMESTAMP(),
   new.updated = UNIX_TIMESTAMP()
+;
 ;;
 DELIMITER ;
 DROP TRIGGER IF EXISTS `before_update_admins`;
 DELIMITER ;;
 CREATE TRIGGER `before_update_admins` BEFORE UPDATE ON `admins` FOR EACH ROW SET
    new.updated = UNIX_TIMESTAMP()
+;
 ;;
 DELIMITER ;
 DROP TRIGGER IF EXISTS `before_insert_authenticates`;
 DELIMITER ;;
 CREATE TRIGGER `before_insert_authenticates` BEFORE INSERT ON `authenticates` FOR EACH ROW SET
   new.created = UNIX_TIMESTAMP()
+;
 ;;
 DELIMITER ;
 DROP TRIGGER IF EXISTS `before_insert_customers`;
@@ -191,12 +229,14 @@ DELIMITER ;;
 CREATE TRIGGER `before_insert_customers` BEFORE INSERT ON `customers` FOR EACH ROW SET
   new.created = UNIX_TIMESTAMP(),
   new.updated = UNIX_TIMESTAMP()
+;
 ;;
 DELIMITER ;
 DROP TRIGGER IF EXISTS `before_update_customers`;
 DELIMITER ;;
 CREATE TRIGGER `before_update_customers` BEFORE UPDATE ON `customers` FOR EACH ROW SET
    new.updated = UNIX_TIMESTAMP()
+;
 ;;
 DELIMITER ;
 DROP TRIGGER IF EXISTS `before_insert_orders`;
@@ -204,11 +244,26 @@ DELIMITER ;;
 CREATE TRIGGER `before_insert_orders` BEFORE INSERT ON `orders` FOR EACH ROW SET
   new.created = UNIX_TIMESTAMP(),
   new.updated = UNIX_TIMESTAMP()
+;
 ;;
 DELIMITER ;
 DROP TRIGGER IF EXISTS `before_update_orders`;
 DELIMITER ;;
 CREATE TRIGGER `before_update_orders` BEFORE UPDATE ON `orders` FOR EACH ROW SET
+   new.updated = UNIX_TIMESTAMP()
+;
+;;
+DELIMITER ;
+DROP TRIGGER IF EXISTS `before_insert_order_products`;
+DELIMITER ;;
+CREATE TRIGGER `before_insert_order_products` BEFORE INSERT ON `order_products` FOR EACH ROW SET
+  new.created = UNIX_TIMESTAMP(),
+  new.updated = UNIX_TIMESTAMP()
+;;
+DELIMITER ;
+DROP TRIGGER IF EXISTS `before_update_order_products`;
+DELIMITER ;;
+CREATE TRIGGER `before_update_order_products` BEFORE UPDATE ON `order_products` FOR EACH ROW SET
    new.updated = UNIX_TIMESTAMP()
 ;;
 DELIMITER ;
@@ -217,12 +272,14 @@ DELIMITER ;;
 CREATE TRIGGER `before_insert_products` BEFORE INSERT ON `products` FOR EACH ROW SET
   new.created = UNIX_TIMESTAMP(),
   new.updated = UNIX_TIMESTAMP()
+;
 ;;
 DELIMITER ;
 DROP TRIGGER IF EXISTS `before_update_products`;
 DELIMITER ;;
 CREATE TRIGGER `before_update_products` BEFORE UPDATE ON `products` FOR EACH ROW SET
    new.updated = UNIX_TIMESTAMP()
+;
 ;;
 DELIMITER ;
 DROP TRIGGER IF EXISTS `before_insert_suppliers`;
@@ -230,6 +287,7 @@ DELIMITER ;;
 CREATE TRIGGER `before_insert_suppliers` BEFORE INSERT ON `suppliers` FOR EACH ROW SET
   new.created = UNIX_TIMESTAMP(),
   new.updated = UNIX_TIMESTAMP()
+;
 ;;
 DELIMITER ;
 DROP TRIGGER IF EXISTS `before_update_suppliers`;
