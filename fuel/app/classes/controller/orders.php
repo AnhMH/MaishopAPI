@@ -10,7 +10,7 @@ class Controller_Orders extends \Controller_App {
     /**
      * Add
      */
-    public function action_add() {
-        return \Bus\Orders_GetInfo::getInstance()->execute();
+    public function action_addupdate() {
+        return \Bus\Orders_AddUpdate::getInstance()->execute();
     }
 }
