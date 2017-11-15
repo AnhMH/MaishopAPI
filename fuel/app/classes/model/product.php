@@ -26,6 +26,7 @@ class Model_Product extends Model_Abstract {
         'price',
         'discount',
         'rate',
+        'qty',
         'created',
         'updated',
         'disable'
@@ -110,6 +111,9 @@ class Model_Product extends Model_Abstract {
         }
         if (!empty($param['rate'])) {
             $self->set('rate', $param['rate']);
+        }
+        if (isset($param['qty'])) {
+            $self->set('qty', $param['qty']);
         }
         
         // Save data
