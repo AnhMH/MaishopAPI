@@ -214,4 +214,35 @@ class Model_Order extends Model_Abstract {
             'data' => $data
         );
     }
+    
+    /**
+     * Get detail
+     *
+     * @author AnhMH
+     * @param array $param Input data
+     * @return array|bool
+     */
+    public static function get_detail($param)
+    {
+        // Init
+        $adminId = !empty($param['admin_id']) ? $param['admin_id'] : '';
+        
+        // Query
+        $query = DB::select(
+                self::$_table_name.'.*'
+            )
+            ->from(self::$_table_name)
+            ->where(self::$_table_name.'.id', $param['id'])
+        ;
+        
+        $data = $query->execute()->offsetGet(0);
+        
+        if (!empty($data)) {
+            $data['products'] = Model_Order_Product::get_all(array(
+                'order_id' => $param['id']
+            ));
+        }
+        
+        return $data;
+    }
 }
