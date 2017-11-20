@@ -143,4 +143,75 @@ class Model_Order extends Model_Abstract {
         
         return false;
     }
+    
+    /**
+     * Get list
+     *
+     * @author AnhMH
+     * @param array $param Input data
+     * @return array|bool
+     */
+    public static function get_list($param)
+    {
+        // Init
+        $adminId = !empty($param['admin_id']) ? $param['admin_id'] : '';
+        
+        // Query
+        $query = DB::select(
+                self::$_table_name.'.*'
+            )
+            ->from(self::$_table_name)
+            ->where(self::$_table_name.'.admin_id', $adminId)
+        ;
+                        
+        // Filter
+        if (!empty($param['name'])) {
+            $query->where(self::$_table_name.'.name', 'LIKE', "%{$param['name']}%");
+        }
+        if (!empty($param['address'])) {
+            $query->where(self::$_table_name.'.address', 'LIKE', "%{$param['address']}%");
+        }
+        if (!empty($param['tel'])) {
+            $query->where(self::$_table_name.'.tel', 'LIKE', "%{$param['tel']}%");
+        }
+        if (!empty($param['email'])) {
+            $query->where(self::$_table_name.'.email', 'LIKE', "%{$param['email']}%");
+        }
+        if (!empty($param['disable'])) {
+            $query->where(self::$_table_name.'.disable', 1);
+        } else {
+            $query->where(self::$_table_name.'.disable', 0);
+        }
+        
+        // Pagination
+        if (!empty($param['page']) && $param['limit']) {
+            $offset = ($param['page'] - 1) * $param['limit'];
+            $query->limit($param['limit'])->offset($offset);
+        }
+        
+        // Sort
+        if (!empty($param['sort'])) {
+            if (!self::checkSort($param['sort'])) {
+                self::errorParamInvalid('sort');
+                return false;
+            }
+
+            $sortExplode = explode('-', $param['sort']);
+            if ($sortExplode[0] == 'created') {
+                $sortExplode[0] = self::$_table_name . '.created';
+            }
+            $query->order_by($sortExplode[0], $sortExplode[1]);
+        } else {
+            $query->order_by(self::$_table_name . '.created', 'DESC');
+        }
+        
+        // Get data
+        $data = $query->execute()->as_array();
+        $total = !empty($data) ? DB::count_last_query(self::$slave_db) : 0;
+        
+        return array(
+            'total' => $total,
+            'data' => $data
+        );
+    }
 }
