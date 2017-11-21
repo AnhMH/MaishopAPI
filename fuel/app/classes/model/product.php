@@ -17,6 +17,7 @@ class Model_Product extends Model_Abstract {
         'id',
         'admin_id',
         'cate_id',
+        'supplier_id',
         'name',
         'description',
         'detail',
@@ -87,6 +88,9 @@ class Model_Product extends Model_Abstract {
         }
         if (!empty($param['cate_id'])) {
             $self->set('cate_id', $param['cate_id']);
+        }
+        if (isset($param['supplier_id'])) {
+            $self->set('supplier_id', $param['supplier_id']);
         }
         if (!empty($param['description'])) {
             $self->set('description', $param['description']);

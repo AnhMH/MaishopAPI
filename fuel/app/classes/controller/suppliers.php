@@ -34,4 +34,11 @@ class Controller_Suppliers extends \Controller_App {
     public function action_disable() {
         return \Bus\Suppliers_Disable::getInstance()->execute();
     }
+    
+    /**
+     * Get all
+     */
+    public function action_all() {
+        return \Bus\Suppliers_All::getInstance()->execute();
+    }
 }
