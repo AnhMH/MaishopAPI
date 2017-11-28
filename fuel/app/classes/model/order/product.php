@@ -109,6 +109,7 @@ class Model_Order_Product extends Model_Abstract {
             ->from(self::$_table_name)
             ->join('products', 'LEFT')
             ->on(self::$_table_name.'.product_id', '=', 'products.id')
+            ->where(self::$_table_name.'.disable', 0)
         ;
                         
         // Filter

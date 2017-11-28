@@ -121,6 +121,13 @@ class Model_Order extends Model_Abstract {
                 $self->id = self::cached_object($self)->_original['id'];
             }
             if (!empty($param['product_data'])) {
+                // reset
+                DB::update('order_products')
+                    ->value('disable', 1)
+                    ->where('disable', '=', 0)
+                    ->where('order_id', '=', $self->id)
+                    ->execute();
+                
                 if (!is_array($param['product_data'])) {
                     $param['product_data'] = json_decode($param['product_data'], true);
                 }
