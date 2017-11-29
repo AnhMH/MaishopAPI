@@ -145,9 +145,24 @@ class Model_Product extends Model_Abstract {
         
         // Query
         $query = DB::select(
-                self::$_table_name.'.*'
+                self::$_table_name.'.*',
+                'order_products.sell_qty'
             )
             ->from(self::$_table_name)
+            ->join(DB::expr("
+                (
+                    SELECT 
+                        product_id,
+                        SUM(qty) as sell_qty
+                    FROM
+                        order_products
+                    WHERE
+                        disable = 0
+                    GROUP BY
+                        product_id
+                ) AS order_products
+            "), 'LEFT')
+            ->on(self::$_table_name . '.id', '=', 'order_products.product_id')
             ->where(self::$_table_name.'.admin_id', $adminId)
         ;
                         

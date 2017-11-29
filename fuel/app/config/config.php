@@ -344,6 +344,7 @@ return array(
         'suppliers/list',
         'suppliers/detail',
         'suppliers/all',
+        'reports/general'
     ),
     'unauthorize_basic_token_url' => array(
         'versions/check'
